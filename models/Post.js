@@ -14,7 +14,7 @@ const PostSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default: "/uploads/default-post.jpg",
+      default: "images/default-post.jpg",
     },
     username: {
       type: String,
