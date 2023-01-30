@@ -85,6 +85,11 @@ const updateComment = async (req, res) => {
   await comment.save();
   res.status(StatusCodes.OK).json(comment);
 };
+const getSinglePostComments = async (req, res) => {
+  const { id: postId } = req.params;
+  const comment = await Comment.find({ post: postId });
+  res.status(StatusCodes.OK).json({ comment });
+};
 
 module.exports = {
   createComment,
@@ -92,4 +97,5 @@ module.exports = {
   getSingleComment,
   updateComment,
   deleteComment,
+  getSinglePostComments,
 };

@@ -30,7 +30,7 @@ const deletePost = async (req, res) => {
 };
 const getSinglePost = async (req, res) => {
   const postId = req.params.id;
-  const post = await Post.findOne({ _id: postId });
+  const post = await Post.findOne({ _id: postId }).populate("comments");
   if (!post) {
     throw new CustomError.BadRequestError(`There is no post with ${postId} id`);
   }

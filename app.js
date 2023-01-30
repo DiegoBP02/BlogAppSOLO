@@ -18,6 +18,7 @@ const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
 const postRouter = require("./routes/postRoutes");
 const commentRouter = require("./routes/commentRoutes");
+const categoryRouter = require("./routes/categoryRoutes");
 
 // middlewares
 const notFoundMiddleware = require("./middleware/not-found");
@@ -43,6 +44,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/post", postRouter);
 app.use("/api/v1/comment", commentRouter);
+app.use("/api/v1/category", categoryRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

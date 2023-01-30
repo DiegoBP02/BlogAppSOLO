@@ -31,4 +31,33 @@ const CommentSchema = new mongoose.Schema(
 
 CommentSchema.index({ post: 1, user: 1 }, { unique: true });
 
+CommentSchema.statics.calculateAverageRating = async function (postId) {
+  const result = await this.aggregate([
+    { $match: { post: postId } },
+    {
+      $group: {
+        _id: null,
+        averageRating: { $avg: "$rating" },
+        numOfComments: { $sum: 1 },
+      },
+    },
+  ]);
+
+  try {
+    await this.model("Posts").findOneAndUpdate(
+      { _id: postId },
+      {
+        averageRating: Math.ceil(result[0]?.averageRating || 0),
+        numOfComments: result[0]?.numOfComments || 0,
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+CommentSchema.post("save", async function () {
+  await this.constructor.calculateAverageRating(this.post);
+});
+
 module.exports = mongoose.model("Comments", CommentSchema);
