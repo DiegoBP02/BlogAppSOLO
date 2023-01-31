@@ -1,12 +1,14 @@
 const Post = require("../models/Post");
+const Category = require("../models/Category");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const path = require("path");
+const addCategories = require("../utils/addCategories");
 
 const createPost = async (req, res) => {
-  req.body.user = req.user.userId;
-  const post = await Post.create(req.body);
-  res.status(StatusCodes.CREATED).json(post);
+  const categories = (await Category.find({})).map(({ name }) => name);
+
+  await addCategories(req, res, categories);
 };
 const updatePost = async (req, res) => {
   const postId = req.params.id;
