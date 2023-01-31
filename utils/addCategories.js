@@ -17,6 +17,7 @@ async function addCategories(req, res, categories) {
   }
 
   req.body.user = req.user.userId;
+  req.body.username = req.user.name;
   const post = await Post.create(req.body);
 
   res.status(StatusCodes.CREATED).json(post);
